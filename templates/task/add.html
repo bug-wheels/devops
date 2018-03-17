@@ -1,0 +1,83 @@
+<ol class="am-breadcrumb">
+    <li><a href="#">Task管理</a></li>
+    <li class="am-active">添加脚本</li>
+</ol>
+<div class="tpl-portlet-components">
+    <div class="portlet-title">
+        <div class="caption font-green bold">
+            <span class="am-icon-code"></span> 添加
+        </div>
+    </div>
+    <div class="tpl-block ">
+        <div class="am-g tpl-amazeui-form">
+            <div class="am-u-sm-12 am-u-md-9">
+                <form class="am-form am-form-horizontal">
+                    <div class="am-form-group">
+                        <label for="computer-name" class="am-u-sm-3 am-form-label">主机名</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" id="computer-name" placeholder="主机名">
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="computer-ip" class="am-u-sm-3 am-form-label">外网IP</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" id="computer-ip" placeholder="外网IP">
+                            <small>用于测试是否联通（Ping ...,如果未设置则使用内网IP）</small>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="computer-inner-ip" class="am-u-sm-3 am-form-label">内网IP</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" id="computer-inner-ip" placeholder="内网IP">
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="computer-ssh-port" class="am-u-sm-3 am-form-label">SSH端口</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" id="computer-ssh-port" placeholder="SSH端口">
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="computer-ssh-port" class="am-u-sm-3 am-form-label">标签</label>
+                        <div class="am-u-sm-9">
+                            <select id="computer-type">
+                                <option value="option1">开发</option>
+                                <option value="option2">测试</option>
+                                <option value="option3">生产</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="computer-user" class="am-u-sm-3 am-form-label">使用者</label>
+                        <div class="am-u-sm-9">
+                            <select id="computer-user">
+                                <option value="option1">空闲</option>
+                                <option value="o">用户一</option>
+                                <option value="option3">用户二</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label for="computer-remark" class="am-u-sm-3 am-form-label">备注</label>
+                        <div class="am-u-sm-9">
+                            <textarea class="" rows="5" id="computer-remark" placeholder="备注"></textarea>
+                            <small>250字以内写出你的一生...</small>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <div class="am-u-sm-9 am-u-sm-push-3">
+                            <button type="button" class="am-btn am-btn-primary">保存修改</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
