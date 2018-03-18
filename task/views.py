@@ -23,7 +23,7 @@ def invoke_shell(request):
     asset_id = request.POST.get("assetId")
     shell = request.POST.get("shell")
     asset = Asset.objects.filter(id=asset_id).first()
-    system_user = SystemUser.objects.filter(id=asset.user_id).first()
+    system_user = SystemUser.objects.filter(id=asset.system_user.id).first()
 
     ssh = paramiko.SSHClient()
 
