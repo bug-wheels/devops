@@ -26,7 +26,8 @@ urlpatterns = [
     url(r'^member/', include('member.urls')),
     url(r'^project/', include('projects.urls')),
     url(r'^asset/', include('asset.urls')),
-    url(r'^$', views.index),
+    url(r'^task/', include('task.urls')),
+    url(r'^$', views.index, name='index'),
     url(r'^login$', views.login, name='login'),
     url(r'^logout$', views.logout, name='logout'),
 ]
