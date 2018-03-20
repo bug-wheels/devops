@@ -17,16 +17,15 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-import member
-import projects
 from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^member/', include('member.urls')),
-    url(r'^project/', include('projects.urls')),
-    url(r'^asset/', include('asset.urls')),
-    url(r'^task/', include('task.urls')),
+    url(r'^member/', include('member.urls')),  # 成员管理
+    url(r'^project/', include('projects.urls')),  # 项目管理
+    url(r'^asset/', include('asset.urls')),  # 资产管理
+    url(r'^task/', include('task.urls')),  # 任务管理
+    url(r'^document/', include('document.urls')),  # 文档协作
     url(r'^$', views.index, name='index'),
     url(r'^login$', views.login, name='login'),
     url(r'^logout$', views.logout, name='logout'),

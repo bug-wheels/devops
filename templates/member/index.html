@@ -1,11 +1,117 @@
 {% extends 'base.html' %}
 {% block body %}
-<!-- MAIN CONTENT -->
-<div class="main-content">
-    <div class="container-fluid">
-        <!-- OVERVIEW -->
-        <!-- END OVERVIEW -->
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="panel panel-headline">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="display: inline">成员管理</h3>
+                    <div class="col-md-2 pull-right">
+                        <a data-toggle="modal" style="background-color: #00AAFF;border-color: #00a0f0;height: 30px;"
+                           class="btn btn-primary btn-block" href="#modal-form">添加成员</a>
+                    </div>
+                    <hr>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="panel-body">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="搜索员工姓名、手机号" type="text">
+                                    <span class="input-group-btn"><button class="btn btn-primary"
+                                                                          type="button">Go!</button></span>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-primary btn-block">管理部门</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+
+                            </div>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>姓名</th>
+                                    <th>手机号/邮箱</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>张瑀楠</td>
+                                    <td>zyndev@gmail.com</td>
+                                    <td><a href="">设置</a></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Simon</td>
+                                    <td>z@222.com</td>
+                                    <td><a href="">设置</a></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Jane</td>
+                                    <td>dfasdf@qwe.com</td>
+                                    <td><a href="">设置</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<!-- END MAIN CONTENT -->
+    <div id="modal-form" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-8 col-lg-offset-2">
+                            <h3 class="m-t-none m-b">添加成员</h3>
+                            <form role="form">
+                                <div class="form-group">
+                                    <label>姓名：</label>
+                                    <input type="email" placeholder="请输入用户名" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>登录用户名：</label>
+                                    <input type="password" placeholder="请输入密码" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>登录用户名：</label>
+                                    <input type="password" placeholder="请输入密码" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>邮箱或手机号：</label>
+                                    <input type="password" placeholder="请输入密码" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>默认密码：</label>
+                                    <input type="password" placeholder="请输入密码" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>所属部门：</label>
+                                    <input type="password" placeholder="请输入密码" class="form-control">
+                                </div>
+                                <div>
+                                    <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit">
+                                        <strong>添加</strong>
+                                    </button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

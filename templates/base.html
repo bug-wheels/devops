@@ -11,13 +11,14 @@
 	<link rel="stylesheet" href="../static/vendor/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../static/vendor/linearicons/style.css">
 	<link rel="stylesheet" href="../static/vendor/chartist/css/chartist-custom.css">
+    <link rel="stylesheet" href="../static/css/animate.min.css">
+    <link rel="stylesheet" href="../static/css/style.min.css">
 	<!-- MAIN CSS -->
 	<link rel="stylesheet" href="../static/css/main.css">
-	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-	<link rel="stylesheet" href="../static/css/demo.css">
 	<!-- GOOGLE FONTS -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 	<!-- ICONS -->
+
 	<link rel="apple-touch-icon" sizes="76x76" href="../static/img/apple-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="../static/img/favicon.png">
 </head>
@@ -87,7 +88,7 @@
 							<div id="projects" class="collapse">
 								<ul class="nav">
 									<li><a href="page-profile.html" class="">工作台</a></li>
-									<li><a href="page-login.html" class="">项目</a></li>
+                                    <li><a href="{% url 'projects/index' %}" class="">项目</a></li>
 									<li><a href="page-lockscreen.html" class="">统计分析</a></li>
 									<li><a href="page-lockscreen.html" class="">标签</a></li>
 								</ul>
@@ -115,7 +116,8 @@
 								</ul>
 							</div>
 						</li>
-                        <li><a href="{% url 'asset/index' %}"><i class="lnr lnr-bookmark"></i> <span>文档协作</span></a></li>
+                        <li><a href="{% url 'document/index' %}"><i class="lnr lnr-bookmark"></i> <span>文档协作</span></a>
+                        </li>
 
 					</ul>
 				</nav>

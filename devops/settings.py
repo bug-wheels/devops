@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'projects',
     'asset',
     'task',
+    'document',
 ]
 
 MIDDLEWARE = [
