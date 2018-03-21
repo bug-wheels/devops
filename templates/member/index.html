@@ -109,16 +109,20 @@
         delimiters : ['[[', ']]'],
         el: '#devops_app',
         data: {members:[], member:{}, member_name: ''},
+        mounted: function() {
+            this.searchMember();
+        },
         methods: {
             searchMember() {
+                _this = this;
                 $.ajax({
                     url: "{% url 'member/members' %}",
                     data: {
-                        "searchParam": devops_app.member_name
+                        "searchParam": _this.member_name
                     },
                     success:function (data) {
                         if(data.code === 200) {
-                            devops_app.members = data.records;
+                            _this.members = data.records;
                         } else {
                             alert("什么都没有");
                         }
