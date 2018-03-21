@@ -15,4 +15,4 @@ def members(request):
         result = Member.objects.values().all()
     else:
         result = Member.objects.filter(name__icontains=search_param).values().all()
-    return JsonResponse({"code": 200, "records": result}, safe=False)
+    return JsonResponse({"code": 200, "records": list(result)}, safe=False)
