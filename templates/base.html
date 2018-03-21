@@ -18,7 +18,7 @@
 	<!-- GOOGLE FONTS -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
 	<!-- ICONS -->
-
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
 	<link rel="apple-touch-icon" sizes="76x76" href="../static/img/apple-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="../static/img/favicon.png">
 </head>
@@ -141,6 +141,9 @@
 	<script src="../static/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 	<script src="../static/vendor/chartist/js/chartist.min.js"></script>
 	<script src="../static/scripts/klorofil-common.js"></script>
+    <script>
+        $.ajaxSetup({headers: {"X-CSRFToken": '{{ csrf_token }}'}});
+    </script>
     {% block script %}
     {% endblock %}
 </body>
