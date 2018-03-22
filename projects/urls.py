@@ -1,8 +1,10 @@
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name="projects/index"),
-    url(r'^detail$', views.detail, name="projects/detail"),
+    path(r'', views.index, name="projects/index"),
+    path(r'list', views.project_list, name="projects/list"),
+    path(r'detail', views.detail, name="projects/detail"),
+    path(r'add', views.add, name="projects/add"),
 ]
