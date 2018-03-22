@@ -16,3 +16,20 @@ def members(request):
     else:
         result = Member.objects.filter(name__icontains=search_param).values().all()
     return JsonResponse({"code": 200, "records": list(result)}, safe=False)
+
+
+def add(request):
+    name = request.POST.get("name")
+    email = request.POST.get("email")
+    phone = request.POST.get("phone")
+    Member.objects.create(name=name, email=email, phone=phone)
+    return JsonResponse({"code": 200}, safe=False)
+
+
+def modify(request):
+    id = request.POST.get("id")
+    name = request.POST.get("name")
+    email = request.POST.get("email")
+    phone = request.POST.get("phone")
+    Member.objects.filter(id=id).update(name=name, email=email, phone=phone)
+    return JsonResponse({"code": 200}, safe=False)
