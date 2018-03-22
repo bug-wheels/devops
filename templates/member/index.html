@@ -165,8 +165,11 @@
                                     <div class="form-group">
                                         <div class="col-sm-8 col-sm-offset-3">
                                             <button @click="modifyMember()" class="btn btn-sm btn-primary pull-right m-t-n-xs">
-                                            <strong>确认修改</strong>
-                                        </button>
+                                                <strong>确认修改</strong>
+                                            </button>
+                                            <button @click="deleteMember()" style="margin-right: 20px;" class="btn btn-sm btn-danger pull-right m-t-n-xs">
+                                                <strong>删除</strong>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -224,7 +227,7 @@
                     this.member = member;
                     $("#modal-modify").modal("show");
                 },
-                modifyMember(member) {
+                modifyMember() {
                     $.ajax({
                         url: "{% url "member/modify" %}",
                         data: this.member,
@@ -239,8 +242,20 @@
                         }
                     });
                 },
-                deleteMember(member) {
-
+                deleteMember() {
+                    $.ajax({
+                        url: "{% url "member/remove" %}",
+                        data: this.member,
+                        type: "post",
+                        success: function (data) {
+                            if (data.code === 200) {
+                                $("#modal-modify").modal("hide");
+                                devops_app.searchMember();
+                            } else {
+                                alert("修改失败");
+                            }
+                        }
+                    });
                 }
             }
         });
