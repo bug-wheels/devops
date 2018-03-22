@@ -16,3 +16,13 @@ class Project(models.Model):
     class Meta:
         managed = False
         db_table = 'project'
+
+
+class ProjectTags(models.Model):
+    name = models.CharField(max_length=12)
+    color = models.CharField(max_length=8)
+    company_id = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'project_tags'

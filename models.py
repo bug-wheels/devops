@@ -186,6 +186,16 @@ class Project(models.Model):
         db_table = 'project'
 
 
+class ProjectTags(models.Model):
+    name = models.CharField(max_length=12)
+    color = models.CharField(max_length=8)
+    company_id = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'project_tags'
+
+
 class SystemUser(models.Model):
     name = models.CharField(max_length=30)
     username = models.CharField(max_length=30)

@@ -6,5 +6,5 @@ urlpatterns = [
     path(r'', views.index, name="document/index"),
     path(r'detail', views.detail, name="document/detail"),
     path(r'write', views.write, name="document/write"),
-
+    path(r'articles/<int:archive_id>/', views.archive, name="document/archives"),
 ]
