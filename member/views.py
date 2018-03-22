@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
-from member.models import Member
+from member.models import Member, Department
 
 __author__ = 'yunan.zhang zyndev@gmail.com'
 
@@ -62,4 +62,15 @@ def remove(request):
     """
     id = request.POST.get("id")
     Member.objects.filter(id=id).delete()
+    return JsonResponse({"code": 200}, safe=False)
+
+
+def departments(request):
+    result = Department.objects.values().all()
+    return JsonResponse({"code": 200, "records": list(result)}, safe=False)
+
+
+def department_add(request):
+    name = request.POST.get("department_name")
+    Department.objects.create(name=name)
     return JsonResponse({"code": 200}, safe=False)

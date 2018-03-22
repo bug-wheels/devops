@@ -27,7 +27,11 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="button" class="btn btn-primary btn-block">管理部门</button>
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item list-group-item-info">全部</a>
+                                            <a v-for="department in departments" :data-id="department.id" href="#" class="list-group-item list-group-item-info">[[ department.name ]]</a>
+                                        </div>
+                                        <button type="button" @click="settingDepartment()" class="btn btn-primary btn-block">管理部门</button>
                                     </div>
                                 </div>
                             </div>
@@ -179,6 +183,30 @@
                 </div>
             </div>
         </div>
+        <div id="modal-department" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="m-t-none m-b">部门管理</h3>
+                                <hr>
+                                <div class="input-group">
+                                    <input class="form-control" v-model="department_name"placeholder="部门名称">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="button"
+                                                @click="addDepartment()">添加部门</button>
+                                    </span>
+                                </div>
+                                <div class="list-group" style="margin-top: 20px;">
+                                    <a v-for="department in departments" :data-id="department.id" href="#" class="list-group-item list-group-item-info">[[ department.name ]]</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
@@ -187,9 +215,10 @@
         let devops_app = new Vue({
             delimiters: ['[[', ']]'],
             el: '#devops_app',
-            data: {members: [], member: {}, member_name: ''},
+            data: {members: [], member: {}, member_name: '', departments: [], department: {}, department_name: ''},
             mounted: function () {
                 this.searchMember();
+                this.searchDepartments();
             },
             methods: {
                 searchMember() {
@@ -256,7 +285,41 @@
                             }
                         }
                     });
+                },
+                searchDepartments() {
+                    _this = this;
+                    $.ajax({
+                        url: "{% url 'department/list' %}",
+                        success: function (data) {
+                            if (data.code === 200) {
+                                _this.departments = data.records;
+                            } else {
+                                alert("什么都没有");
+                            }
+                        }
+                    });
+                },
+                settingDepartment() {
+                    $("#modal-department").modal("show");
+                    this.searchDepartments();
+                },
+                addDepartment() {
+                    _this = this;
+                    $.ajax({
+                        url: "{% url 'department/add' %}",
+                        data: {"department_name": _this.department_name},
+                        type: "post",
+                        success: function (data) {
+                            if (data.code === 200) {
+                                _this.searchDepartments();
+                            } else {
+                                alert("什么都没有");
+                            }
+                        }
+                    });
                 }
+
+
             }
         });
         $('#modal-form').on('hidden.bs.modal', function () {
