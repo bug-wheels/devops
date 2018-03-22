@@ -74,3 +74,9 @@ def department_add(request):
     name = request.POST.get("department_name")
     Department.objects.create(name=name)
     return JsonResponse({"code": 200}, safe=False)
+
+
+def department_delete(request):
+    id = request.POST.get("id")
+    Department.objects.filter(id=id).delete()
+    return JsonResponse({"code": 200}, safe=False)

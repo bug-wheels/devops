@@ -11,4 +11,5 @@ urlpatterns = [
 
     path(r'departments', views.departments, name="department/list"),
     path(r'department/add', views.department_add, name="department/add"),
+    path(r'department/delete', views.department_delete, name="department/delete"),
 ]
