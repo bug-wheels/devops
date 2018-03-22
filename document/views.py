@@ -10,3 +10,7 @@ def index(request):
 
 def detail(request):
     return render(request, 'document/document_detail.html')
+
+
+def write(request):
+    return render(request, 'document/full.html')
