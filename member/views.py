@@ -36,7 +36,8 @@ def add(request):
     name = request.POST.get("name")
     email = request.POST.get("email")
     phone = request.POST.get("phone")
-    Member.objects.create(name=name, email=email, phone=phone)
+    department_id = request.POST.get("department_id")
+    Member.objects.create(name=name, email=email, phone=phone, department_id=department_id)
     return JsonResponse({"code": 200}, safe=False)
 
 

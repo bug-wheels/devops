@@ -22,6 +22,36 @@
 	<!-- ICONS -->
 	<link rel="apple-touch-icon" sizes="76x76" href="../static/img/apple-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="../static/img/favicon.png">
+    <style>
+        .task-container ul {
+            padding: 15px;
+            min-height: 300px;
+            background-color: #FFFFF0;
+            margin: 20px;
+            display: block;
+            float: left;
+            border-radius: 5px;
+            border: 1px solid #bbb;
+        }
+
+        .task-container ul li {
+            display: block;
+            float: left;
+            width: 90%;
+            height: 35px;
+            line-height: 35px;
+            border-radius: 4px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            background-color: #EED2EE;
+            margin-bottom: 10px;
+            -moz-user-select: none;
+            user-select: none;
+            text-indent: 10px;
+            color: #555;
+        }
+    </style>
 </head>
 
 <body>
@@ -91,7 +121,7 @@
 									<li><a href="page-profile.html" class="">工作台</a></li>
                                     <li><a href="{% url 'projects/index' %}" class="">项目</a></li>
 									<li><a href="page-lockscreen.html" class="">统计分析</a></li>
-									<li><a href="page-lockscreen.html" class="">标签</a></li>
+                                    <li><a href="{% url 'projects/tags' %}" class="">标签</a></li>
 								</ul>
 							</div>
 						</li>
