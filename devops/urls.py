@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^asset/', include('asset.urls')),  # 资产管理
     url(r'^task/', include('task.urls')),  # 任务管理
     url(r'^document/', include('document.urls')),  # 文档协作
+    url(r'^gitosc/callback/', views.gitosc),  # 文档协作
     url(r'^$', views.index, name='index'),
     url(r'^login$', views.login, name='login'),
     url(r'^logout$', views.logout, name='logout'),

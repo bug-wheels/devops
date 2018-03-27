@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render
 
-from asset.models import Asset, SystemUser
+from asset.models import Asset
 
 
 @login_required
@@ -23,13 +23,15 @@ def invoke_shell(request):
     asset_id = request.POST.get("assetId")
     shell = request.POST.get("shell")
     asset = Asset.objects.filter(id=asset_id).first()
-    system_user = SystemUser.objects.filter(id=asset.system_user.id).first()
+    if not asset.system_user:
+        return JsonResponse({"code": 200, "msg": "该资产未绑定登录用户，请修改"}, safe=False)
 
     ssh = paramiko.SSHClient()
 
     # 这行代码的作用是允许连接不在know_hosts文件中的主机。
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(asset.network_ip, port=asset.port, username=system_user.username, password=system_user.password)
+    ssh.connect(asset.network_ip, port=asset.port, username=asset.system_user.username,
+                password=asset.system_user.password)
     stdin, stdout, stderr = ssh.exec_command(shell)
 
     err_list = stderr.readlines()

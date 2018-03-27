@@ -1,14 +1,13 @@
-from django.conf.urls import url
+from django.urls import path
 
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name="task/index"),
-    url(r'^inadd$', views.inadd, name="task/inadd"),
-    url(r'^inaddshell$', views.inadd_shell, name="task/inaddshell"),
-    url(r'^once$', views.once, name="task/once"),
-    url(r'^invoke_shell$', views.invoke_shell, name="task/invoke_shell"),
-    url(r'^history$', views.history, name="task/history"),
-    url(r'^details$', views.details, name="task/details"),
-
+    path(r'', views.index, name="task/index"),
+    path(r'inadd', views.inadd, name="task/inadd"),
+    path(r'inaddshell', views.inadd_shell, name="task/inaddshell"),
+    path(r'once', views.once, name="task/once"),
+    path(r'invoke_shell', views.invoke_shell, name="task/invoke_shell"),
+    path(r'history', views.history, name="task/history"),
+    path(r'details', views.details, name="task/details"),
 ]

@@ -22,7 +22,7 @@ class Asset(models.Model):
     hostname = models.CharField(max_length=30)
     network_ip = models.CharField(max_length=30)
     inner_ip = models.CharField(max_length=30)
-    remark = models.CharField(max_length=100)
+    remark = models.CharField(max_length=100, null=True)
     port = models.IntegerField(blank=True, null=True)
     member = models.ForeignKey(Member, models.DO_NOTHING, blank=True, null=True)
     system_user = models.ForeignKey('SystemUser', models.DO_NOTHING, blank=True, null=True)

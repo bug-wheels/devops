@@ -1,5 +1,6 @@
 import logging
 
+import requests
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import validate_password
@@ -14,6 +15,18 @@ logger = logging.getLogger(__name__)
 @login_required
 def index(request):
     return render(request, "index.html")
+
+
+def gitosc(request):
+    code = request.GET.get("code")
+    print(f"code: {code}")
+    client_id = '2493eceb4bd49ed51e744ac3a6817e39567f140a539c2c6d3a3c2208454760a2'
+    client_secret = '4d25bec9ca69db6797948108c00764351e5d57893b57235e3f83e35779f04dd6'
+    redirect_uri = 'http://devops777.ngrok.xiaomiqiu.cn/gitosc/callback'
+    git_response = requests.post(
+        f"https://gitee.com/oauth/token?grant_type=authorization_code&code={code}&client_id={client_id}&redirect_uri={redirect_uri}&client_secret={client_secret}")
+    print(git_response)
+    return HttpResponseRedirect('/')
 
 
 def login(request):
