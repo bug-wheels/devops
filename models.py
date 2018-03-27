@@ -12,7 +12,7 @@ class Asset(models.Model):
     hostname = models.CharField(max_length=30)
     network_ip = models.CharField(max_length=30)
     inner_ip = models.CharField(max_length=30)
-    remark = models.CharField(max_length=100)
+    remark = models.CharField(max_length=100, blank=True, null=True)
     port = models.IntegerField(blank=True, null=True)
     member = models.ForeignKey('Member', models.DO_NOTHING, blank=True, null=True)
     system_user = models.ForeignKey('SystemUser', models.DO_NOTHING, blank=True, null=True)
@@ -144,6 +144,19 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
+
+
+class EurekaManager(models.Model):
+    app = models.CharField(max_length=100)
+    eureka_url = models.CharField(max_length=200)
+    manager = models.CharField(max_length=20)
+    email = models.CharField(max_length=50)
+    create_time = models.DateTimeField()
+    update_time = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'eureka_manager'
 
 
 class Member(models.Model):

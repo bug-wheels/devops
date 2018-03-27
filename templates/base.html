@@ -22,36 +22,6 @@
 	<!-- ICONS -->
 	<link rel="apple-touch-icon" sizes="76x76" href="../static/img/apple-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="../static/img/favicon.png">
-    <style>
-        .task-container ul {
-            padding: 15px;
-            min-height: 300px;
-            background-color: #FFFFF0;
-            margin: 20px;
-            display: block;
-            float: left;
-            border-radius: 5px;
-            border: 1px solid #bbb;
-        }
-
-        .task-container ul li {
-            display: block;
-            float: left;
-            width: 90%;
-            height: 35px;
-            line-height: 35px;
-            border-radius: 4px;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            background-color: #EED2EE;
-            margin-bottom: 10px;
-            -moz-user-select: none;
-            user-select: none;
-            text-indent: 10px;
-            color: #555;
-        }
-    </style>
 </head>
 
 <body>
@@ -73,9 +43,6 @@
 						<span class="input-group-btn"><button type="button" class="btn btn-primary">Go</button></span>
 					</div>
 				</form>
-				<!--<div class="navbar-btn navbar-btn-right">-->
-					<!--<a class="btn btn-success update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>-->
-				<!--</div>-->
 				<div id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right">
 						<li class="dropdown">
@@ -100,12 +67,12 @@
 								<li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
 								<li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
 								<li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
-								<li><a href="{% url "logout" %}"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+                                <li><a href='{% url "logout" %}'><i class="lnr lnr-exit"></i> <span>Logout</span></a>
+                                </li>
 							</ul>
 						</li>
 					</ul>
                 </div>
-                {
 			</div>
 		</nav>
 		<!-- END NAVBAR -->
@@ -148,12 +115,14 @@
 							</div>
 						</li>
                         <li>
-							<a href="#microserver" data-toggle="collapse" class="collapsed"><i class="lnr lnr-inbox"></i> <span>微服务</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-							<div id="microserver" class="collapse">
+                            <a href="#microservice" data-toggle="collapse" class="collapsed"><i
+                                    class="lnr lnr-inbox"></i> <span>微服务</span> <i
+                                    class="icon-submenu lnr lnr-chevron-left"></i></a>
+                            <div id="microservice" class="collapse">
 								<ul class="nav">
-									<li><a href="{% url 'task/once' %}" class="">设置</a></li>
-									<li><a href="{% url 'task/index' %}" class="">监控</a></li>
-									<li><a href="{% url 'task/history' %}" class="">消息列表</a></li>
+                                    <li><a href="{% url 'microservice/index' %}" class="">设置</a></li>
+                                    <li><a href="{% url 'microservice/index' %}" class="">监控</a></li>
+                                    <li><a href="{% url 'microservice/index' %}" class="">消息列表</a></li>
 								</ul>
 							</div>
 						</li>
