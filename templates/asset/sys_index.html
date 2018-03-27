@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% block body %}
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="devops_app">
+        <div class="container-fluid">
+            <div class="panel panel-headline">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="display: inline">系统用户管理</h3>
+                    <div class="col-md-2 pull-right">
+                        <a data-toggle="modal" style="background-color: #00aaff;border-color: #00a0f0;height: 30px;"
+                           class="btn btn-primary btn-block" href="#modal-form">添加用户</a>
+                    </div>
+                    <hr>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                            </div>
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>姓名</th>
+                                    <th>手机号/邮箱</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(item,index) in members">
+                                    <td>[[ index + 1 ]]</td>
+                                    <td>[[ item.name ]]</td>
+                                    <td>[[ item.phone ]] / [[ item.email ]]</td>
+                                    <td><a @click="settingMember(item)">设置</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        let devops_app = new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#devops_app',
+            data: {
+                members: [],
+                member: {'department': 0},
+                member_name: '',
+                departments: [],
+                department: {},
+                department_name: ''
+            },
+            mounted: function () {
+                this.searchMember();
+                this.searchDepartments();
+            },
+            methods: {
+                searchMember() {
+                    _this = this;
+                    $.ajax({
+                        url: "{% url 'member/members' %}",
+                        data: {
+                            "searchParam": _this.member_name
+                        },
+                        success: function (data) {
+                            if (data.code === 200) {
+                                _this.members = data.records;
+                            } else {
+                                alert("什么都没有");
+                            }
+                        }
+                    });
+                },
+                addMember() {
+                    $.ajax({
+                        url: "{% url "member/add" %}",
+                        data: this.member,
+                        type: "post",
+                        success: function (data) {
+                            if (data.code === 200) {
+                                $("#modal-form").modal("hide");
+                                devops_app.searchMember();
+                            } else {
+                                alert("添加失败");
+                            }
+                        }
+                    });
+                },
+                settingMember(member) {
+                    this.member = member;
+                    $("#modal-modify").modal("show");
+                },
+                modifyMember() {
+                    $.ajax({
+                        url: "{% url "member/modify" %}",
+                        data: this.member,
+                        type: "post",
+                        success: function (data) {
+                            if (data.code === 200) {
+                                $("#modal-modify").modal("hide");
+                                devops_app.searchMember();
+                            } else {
+                                alert("修改失败");
+                            }
+                        }
+                    });
+                },
+                deleteMember() {
+                    $.ajax({
+                        url: "{% url "member/remove" %}",
+                        data: this.member,
+                        type: "post",
+                        success: function (data) {
+                            if (data.code === 200) {
+                                $("#modal-modify").modal("hide");
+                                devops_app.searchMember();
+                            } else {
+                                alert("修改失败");
+                            }
+                        }
+                    });
+                },
+                searchDepartments() {
+                    _this = this;
+                    $.ajax({
+                        url: "{% url 'department/list' %}",
+                        success: function (data) {
+                            if (data.code === 200) {
+                                _this.departments = data.records;
+                            } else {
+                                alert("什么都没有");
+                            }
+                        }
+                    });
+                },
+                settingDepartment() {
+                    $("#modal-department").modal("show");
+                    this.searchDepartments();
+                },
+                addDepartment() {
+                    _this = this;
+                    $.ajax({
+                        url: "{% url 'department/add' %}",
+                        data: {"department_name": _this.department_name},
+                        type: "post",
+                        success: function (data) {
+                            if (data.code === 200) {
+                                _this.searchDepartments();
+                            } else {
+                                alert("什么都没有");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        $('#modal-form').on('hidden.bs.modal', function () {
+            devops_app.member = {};
+        });
+    </script>
+
+{% endblock %}

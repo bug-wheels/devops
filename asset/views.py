@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 # Create your views here.
-from asset.models import Asset
+from asset.models import Asset, SystemUser
 
 
 def index(request):
@@ -37,3 +37,14 @@ def modify(request):
     Asset.objects.filter(id=id).update(hostname=hostname, network_ip=network_ip, inner_ip=inner_ip, port=port,
                                        remark=remark)
     return JsonResponse({"code": 200, "msg": "修改成功"}, safe=False)
+
+
+@login_required
+def sys_user_index(request):
+    return render(request, 'asset/sys_index.html')
+
+
+@login_required
+def sys_user_list(request):
+    result = SystemUser.objects.values().all()
+    return JsonResponse({"code": 200, "records": list(result)}, safe=False)

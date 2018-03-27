@@ -8,12 +8,6 @@ urlpatterns = [
     path(r'add', views.add, name="asset/add"),
     path(r'modify', views.modify, name="asset/modify"),
 
-
-
-
-
-
-
-
-
+    path(r'sys_user', views.sys_user_index, name="sys/user"),
+    path(r'sys_user_list', views.sys_user_list, name="sys/user/list"),
 ]
