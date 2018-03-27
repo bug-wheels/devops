@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% block body %}
+    <!-- MAIN CONTENT -->
+    <div class="main-content" id="devops_app">
+        <div class="container-fluid">
+            <div class="panel panel-headline">
+                <div class="panel-heading">
+                    <h3 class="panel-title" style="display: inline">项目管理</h3>
+                    <div class="col-md-2 pull-right">
+                        <a data-toggle="modal" style="background-color: #00aaff;border-color: #00a0f0;height: 30px;"
+                           class="btn btn-primary btn-block" href="#modal-form">创建新项目</a>
+                    </div>
+                    <hr>
+                </div>
+                <div class="panel-body">
+                    <div class="row m-b-sm m-t-sm">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" v-model="project_name" placeholder="请输入项目名称"
+                                       class="input-sm form-control"> <span
+                                    class="input-group-btn">
+                                                    <button type="button" @click="searchProjects()"
+                                                            class="btn btn-sm btn-primary"> 搜索</button> </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-list">
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr v-for="item in projects">
+                                <td class="project-status">
+                                    <span class="label label-primary" v-if="item.status == 0">进行中</span>
+                                    <span class="label label-primary" v-if="item.status == 1">暂停开发</span>
+                                    <span class="label label-primary" v-if="item.status == 2">开发完成</span>
+                                    <span class="label label-primary" v-if="item.status == 3">已废弃</span>
+                                </td>
+                                <td class="project-title">
+                                    <a href="{% url 'projects/task' %}">[[ item.name ]]</a>
+                                    <br/>
+                                    <small>创建于 [[ item.create_time]]</small>
+                                </td>
+                                <td class="project-completion">
+                                    <small>当前进度： 48%</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 70%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-people">
+                                    已完成 1000 未完成 10
+                                </td>
+                                <td class="project-actions">
+                                    <a href="{% url 'projects/detail' %}" class="btn btn-white btn-sm"><i
+                                            class="fa fa-folder"></i> 查看 </a>
+                                    <a href="projects.html#" class="btn btn-white btn-sm"><i
+                                            class="fa fa-pencil"></i> 编辑 </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modal-form" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="m-t-none m-b">添加项目</h3>
+                                <hr>
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">项目名称：</label>
+                                        <div class="col-sm-8">
+                                            <input v-model="project.name" placeholder="项目名称" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">项目描述：</label>
+                                        <div class="col-sm-8">
+                                            <input v-model="project.remark" placeholder="项目描述" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-sm-8 col-sm-offset-3">
+                                            <button @click="addProject()"
+                                                    class="btn btn-sm btn-primary pull-right m-t-n-xs">
+                                                <strong>添加</strong>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+{% endblock %}
+{% block script %}
+    <script>
+        let devops_app = new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#devops_app',
+            data: {projects: [], project: {}, project_name: ''},
+            mounted: function () {
+                this.searchProjects();
+            },
+            methods: {
+                searchProjects() {
+                    _this = this;
+                    $.ajax({
+                        url: "{% url 'projects/list' %}",
+                        data: {
+                            "project_name": _this.project_name
+                        },
+                        success: function (data) {
+                            if (data.code === 200) {
+                                _this.projects = data.records;
+                            } else {
+                                alert("什么都没有");
+                            }
+                        }
+                    });
+                },
+                addProject() {
+                    $.ajax({
+                        url: "{% url "projects/add" %}",
+                        data: this.project,
+                        type: "post",
+                        success: function (data) {
+                            if (data.code === 200) {
+                                $("#modal-form").modal("hide");
+                                devops_app.searchProjects();
+                            } else {
+                                alert("添加失败");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        $('#modal-form').on('hidden.bs.modal', function () {
+            devops_app.project = {};
+        });
+    </script>
+
+{% endblock %}

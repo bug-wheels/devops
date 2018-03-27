@@ -104,7 +104,8 @@
 							</ul>
 						</li>
 					</ul>
-				</div>
+                </div>
+                {
 			</div>
 		</nav>
 		<!-- END NAVBAR -->
@@ -118,9 +119,9 @@
 							<a href="#projects" data-toggle="collapse" class="collapsed"><i class="lnr lnr-inbox"></i> <span>项目</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
 							<div id="projects" class="collapse">
 								<ul class="nav">
-									<li><a href="page-profile.html" class="">工作台</a></li>
+                                    <li><a href="{% url 'projects/dashboard' %}" class="">工作台</a></li>
                                     <li><a href="{% url 'projects/index' %}" class="">项目</a></li>
-									<li><a href="page-lockscreen.html" class="">统计分析</a></li>
+                                    <li><a href="{% url 'projects/analysis' %}" class="">统计分析</a></li>
                                     <li><a href="{% url 'projects/tags' %}" class="">标签</a></li>
 								</ul>
 							</div>

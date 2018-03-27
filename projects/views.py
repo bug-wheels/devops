@@ -10,6 +10,14 @@ def index(request):
     return render(request, 'projects/index.html')
 
 
+def dashboard(request):
+    return render(request, 'projects/dashboard.html')
+
+
+def analysis(request):
+    return render(request, 'projects/analysis.html')
+
+
 def detail(request):
     return render(request, 'projects/project_detail.html')
 
