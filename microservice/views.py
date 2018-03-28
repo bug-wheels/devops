@@ -42,7 +42,6 @@ def monitor(request):
 @login_required
 def overview(request):
     eurekas = list(EurekaManager.objects.values().all())
-    print(type(eurekas))
 
     application_size = 0
     instance_size = 0
@@ -51,6 +50,11 @@ def overview(request):
         application_request = requests.get(f'{eureka.get("eureka_url")}/eureka/apps')
         if application_request.status_code == 404:
             print("f{eureka.eureka_url}无法访问")
+            mail = {
+                'subject': f'eureka {eureka.get("app")} 地址无法访问!',
+                'content': f'{eureka.get("eureka_url")} 无法访问, 负责人{eureka.get("manager")}'
+            }
+            send_mail(eureka.get("email"), mail)
             continue
         try:
             root = ElementTree.fromstring(application_request.text)
@@ -59,6 +63,7 @@ def overview(request):
                 'subject': 'eureka 无法正常解析!',
                 'content': f'f{eureka.get("eureka_url")}无法访问, 负责人{eureka.get("manager")}'
             }
+            send_mail(eureka.get("email"), mail)
             continue
         list_application = root.getiterator("application")
 
@@ -79,7 +84,7 @@ def overview(request):
         eureka['application_size'] = eureka_application_size
         application_size = application_size + eureka_application_size
     context = {
-        "records": list(eurekas),
+        "records": eurekas,
         "applications": application_size,
         "instances": instance_size
     }
@@ -95,7 +100,10 @@ def add(request):
 
     # 判断该链接是不是euraka链接
     eureka_url = project_url + "/eureka/apps"
-    eureka_request = requests.get(eureka_url)
+    try:
+        eureka_request = requests.get(eureka_url)
+    except:
+        return JsonResponse({"code": 100, "msg": "项目地址访问出现异常"}, safe=False)
     if eureka_request.status_code == 200:
         print(eureka_request.headers)
         if eureka_request.text.startswith("<applications>") and eureka_request.headers:

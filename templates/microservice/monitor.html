@@ -97,40 +97,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><a href="#">763648</a></td>
-                                    <td>Steve</td>
-                                    <td>$122</td>
-                                    <td>Oct 21, 2016</td>
+                                <tr v-for="eureka in ms.records">
+                                    <td>[[ eureka.app ]]</td>
+                                    <td>[[ eureka.manager]]</td>
+                                    <td>[[ eureka.application_size ]]</td>
+                                    <td>[[ eureka.create_time]]</td>
                                     <td><span class="label label-success">COMPLETED</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">763649</a></td>
-                                    <td>Amber</td>
-                                    <td>$62</td>
-                                    <td>Oct 21, 2016</td>
-                                    <td><span class="label label-warning">PENDING</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">763650</a></td>
-                                    <td>Michael</td>
-                                    <td>$34</td>
-                                    <td>Oct 18, 2016</td>
-                                    <td><span class="label label-danger">FAILED</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">763651</a></td>
-                                    <td>Roger</td>
-                                    <td>$186</td>
-                                    <td>Oct 17, 2016</td>
-                                    <td><span class="label label-success">SUCCESS</span></td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">763652</a></td>
-                                    <td>Smith</td>
-                                    <td>$362</td>
-                                    <td>Oct 16, 2016</td>
-                                    <td><span class="label label-success">SUCCESS</span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -166,13 +138,9 @@
             </div>
         </div>
     </div>
-    <!-- END MAIN CONTENT -->
-    </div>
-    <!-- END MAIN -->
     <div class="clearfix"></div>
     </div>
 {% endblock %}
-<!-- END WRAPPER -->
 {% block script %}
     <script>
         let devops_app = new Vue({
@@ -201,87 +169,6 @@
                         }
                     });
                 },
-                addMember() {
-                    $.ajax({
-                        url: "{% url "member/add" %}",
-                        data: this.member,
-                        type: "post",
-                        success: function (data) {
-                            if (data.code === 200) {
-                                $("#modal-form").modal("hide");
-                                devops_app.searchMember();
-                            } else {
-                                alert("添加失败");
-                            }
-                        }
-                    });
-                },
-                settingMember(member) {
-                    this.member = member;
-                    $("#modal-modify").modal("show");
-                },
-                modifyMember() {
-                    $.ajax({
-                        url: "{% url "member/modify" %}",
-                        data: this.member,
-                        type: "post",
-                        success: function (data) {
-                            if (data.code === 200) {
-                                $("#modal-modify").modal("hide");
-                                devops_app.searchMember();
-                            } else {
-                                alert("修改失败");
-                            }
-                        }
-                    });
-                },
-                deleteMember() {
-                    $.ajax({
-                        url: "{% url "member/remove" %}",
-                        data: this.member,
-                        type: "post",
-                        success: function (data) {
-                            if (data.code === 200) {
-                                $("#modal-modify").modal("hide");
-                                devops_app.searchMember();
-                            } else {
-                                alert("修改失败");
-                            }
-                        }
-                    });
-                },
-                searchDepartments() {
-                    _this = this;
-                    $.ajax({
-                        url: "{% url 'department/list' %}",
-                        success: function (data) {
-                            if (data.code === 200) {
-                                _this.departments = data.records;
-                            } else {
-                                alert("什么都没有");
-                            }
-                        }
-                    });
-                },
-                settingDepartment() {
-                    $("#modal-department").modal("show");
-                    this.searchDepartments();
-                },
-                addDepartment() {
-                    _this = this;
-                    $.ajax({
-                        url: "{% url 'department/add' %}",
-                        data: {"department_name": _this.department_name},
-                        type: "post",
-                        success: function (data) {
-                            if (data.code === 200) {
-                                _this.searchDepartments();
-                            } else {
-                                alert("什么都没有");
-                            }
-                        }
-                    });
-                }
             }
         });
 
