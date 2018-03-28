@@ -19,7 +19,27 @@ def index(request):
 
 
 @login_required
-def detail(request):
+def setting(request):
+    """
+    微服务：服务管理首页，根据 eureka 地址拉取最新的服务信息，其中 eureka 可能无法访问
+    :param request:
+    :return:
+    """
+    return render(request, "microservice/setting.html")
+
+
+@login_required
+def monitor(request):
+    """
+    微服务：服务管理首页，根据 eureka 地址拉取最新的服务信息，其中 eureka 可能无法访问
+    :param request:
+    :return:
+    """
+    return render(request, "microservice/monitor.html")
+
+
+@login_required
+def overview(request):
     eurekas = list(EurekaManager.objects.all())
 
     application_size = 0
@@ -56,10 +76,10 @@ def detail(request):
 
     context = {
         "records": eurekas,
-        "application_size": application_size,
-        "instance_size": instance_size
+        "applications": application_size,
+        "instances": instance_size
     }
-    return JsonResponse(context, safe=False)
+    return JsonResponse({"code": 200, "records": context}, safe=False)
 
 
 @login_required
