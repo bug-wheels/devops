@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render
 
+from devops.mail import send_mail
 from microservice.models import EurekaManager
 
 
@@ -40,13 +41,14 @@ def monitor(request):
 
 @login_required
 def overview(request):
-    eurekas = list(EurekaManager.objects.all())
+    eurekas = list(EurekaManager.objects.values().all())
+    print(type(eurekas))
 
     application_size = 0
     instance_size = 0
 
     for eureka in eurekas:
-        application_request = requests.get(f'{eureka.eureka_url}/eureka/apps')
+        application_request = requests.get(f'{eureka.get("eureka_url")}/eureka/apps')
         if application_request.status_code == 404:
             print("f{eureka.eureka_url}无法访问")
             continue
@@ -55,27 +57,29 @@ def overview(request):
         except Exception as e:
             mail = {
                 'subject': 'eureka 无法正常解析!',
-                'content': f'f{eureka.eureka_url}无法访问, 负责人{eureka.manager}'
+                'content': f'f{eureka.get("eureka_url")}无法访问, 负责人{eureka.get("manager")}'
             }
             continue
         list_application = root.getiterator("application")
 
+        eureka_application_size = 0
         for application in list_application:
-            application_size = application_size + 1
+            eureka_application_size = eureka_application_size + 1
             print('\t application:', application.find('name').text)
             instance_list = application.getiterator('instance')
             for instance in instance_list:
                 instance_size = instance_size + 1
-                print('\t |- instanceId', instance.find('instanceId').text)
-                print('\t |- hostName', instance.find('hostName').text)
-                print('\t |- app', instance.find('app').text)
-                print('\t |- ipAddr', instance.find('ipAddr').text)
-                print('\t |- status', instance.find('status').text)
-                print('\t |- statusPageUrl', instance.find('statusPageUrl').text)
-                print('\t |- healthCheckUrl', instance.find('healthCheckUrl').text)
-
+                # print('\t |- instanceId', instance.find('instanceId').text)
+                # print('\t |- hostName', instance.find('hostName').text)
+                # print('\t |- app', instance.find('app').text)
+                # print('\t |- ipAddr', instance.find('ipAddr').text)
+                # print('\t |- status', instance.find('status').text)
+                # print('\t |- statusPageUrl', instance.find('statusPageUrl').text)
+                # print('\t |- healthCheckUrl', instance.find('healthCheckUrl').text)
+        eureka['application_size'] = eureka_application_size
+        application_size = application_size + eureka_application_size
     context = {
-        "records": eurekas,
+        "records": list(eurekas),
         "applications": application_size,
         "instances": instance_size
     }
