@@ -10,4 +10,6 @@ urlpatterns = [
 
     path(r'sys_user', views.sys_user_index, name="sys/user"),
     path(r'sys_user_list', views.sys_user_list, name="sys/user/list"),
+    path(r'sys_user_add', views.sys_user_add, name="sys/user/add"),
+    path(r'sys_user_modify', views.sys_user_modify, name="sys/user/modify"),
 ]

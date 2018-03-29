@@ -48,3 +48,22 @@ def sys_user_index(request):
 def sys_user_list(request):
     result = SystemUser.objects.values().all()
     return JsonResponse({"code": 200, "records": list(result)}, safe=False)
+
+
+@login_required
+def sys_user_add(request):
+    name = request.POST.get("name")
+    password = request.POST.get("password")
+    remark = request.POST.get("remark")
+    SystemUser.objects.create(name=name, password=password, remark=remark)
+    return JsonResponse({"code": 200, "msg": "保存成功"}, safe=False)
+
+
+@login_required
+def sys_user_modify(request):
+    name = request.POST.get("name")
+    password = request.POST.get("password")
+    remark = request.POST.get("remark")
+    id = request.POST.get("id")
+    SystemUser.objects.filter(id=id).update(name=name, password=password, remark=remark)
+    return JsonResponse({"code": 200, "msg": "修改成功"}, safe=False)
