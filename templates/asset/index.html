@@ -94,6 +94,18 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label class="col-sm-3 control-label">系统用户：</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" v-model="asset.system_user_id">
+                                                <option value="0">请选择</option>
+                                                <option v-for="sysuser in sysusers" :value="sysuser.id">[[ sysuser.name
+                                                    ]]
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label class="col-sm-3 control-label">备注：</label>
                                         <div class="col-sm-8">
                                             <textarea class="form-control" rows="5" v-model="asset.remark"
@@ -166,6 +178,17 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">系统用户：</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" v-model="asset.system_user_id">
+                                                <option value="0">请选择</option>
+                                                <option v-for="sysuser in sysusers" :value="sysuser.id">[[ sysuser.name
+                                                    ]]
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">备注：</label>
@@ -203,10 +226,12 @@
                 asset: {},
                 asset_name: '',
                 members: [],
+                sysusers: [],
             },
             mounted: function () {
                 this.searchAsset();
                 this.searchMember();
+                this.searchSysUser();
             },
             methods: {
                 searchAsset() {
@@ -232,6 +257,19 @@
                         success: function (data) {
                             if (data.code === 200) {
                                 _this.members = data.records;
+                            }
+                        }
+                    });
+                },
+                searchSysUser() {
+                    _this = this;
+                    $.ajax({
+                        url: "{% url 'sys/user/list' %}",
+                        success: function (data) {
+                            if (data.code === 200) {
+                                _this.sysusers = data.records;
+                            } else {
+                                alert("什么都没有");
                             }
                         }
                     });
