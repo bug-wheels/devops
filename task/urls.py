@@ -9,5 +9,6 @@ urlpatterns = [
     path(r'once', views.once, name="task/once"),
     path(r'invoke_shell', views.invoke_shell, name="task/invoke_shell"),
     path(r'history', views.history, name="task/history"),
+    path(r'historys', views.historys, name="task/historys"),
     path(r'details', views.details, name="task/details"),
 ]

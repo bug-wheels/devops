@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 {% block body %}
-
-    <!-- MAIN CONTENT -->
     <div class="main-content" id="devops_app">
         <div class="container-fluid">
             <div class="panel panel-headline">
@@ -15,50 +13,21 @@
                             <thead>
                             <tr>
                                 <th class="table-check">#</th>
-                                <th class="table-title">IP</th>
-                                <th class="table-type">脚本名称</th>
-                                <th class="table-type">脚本备注</th>
+                                <th class="table-title">主机名</th>
+                                <th class="table-type">IP</th>
+                                <th class="table-type">脚本</th>
                                 <th class="table-author am-hide-sm-only">创建者</th>
-                                <th class="table-author am-hide-sm-only">执行者</th>
                                 <th class="table-date am-hide-sm-only">执行日期</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>192.128.23.45</td>
-                                <td>删除根目录</td>
-                                <td class="am-hide-sm-only">危险操作</td>
-                                <td class="am-hide-sm-only">张瑀楠</td>
-                                <td class="am-hide-sm-only">张瑀楠</td>
-                                <td class="am-hide-sm-only">2017-02-12 02：45：77</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>192.128.23.45</td>
-                                <td>删除根目录</td>
-                                <td class="am-hide-sm-only">危险操作</td>
-                                <td class="am-hide-sm-only">张瑀楠</td>
-                                <td class="am-hide-sm-only">张瑀楠</td>
-                                <td class="am-hide-sm-only">2017-02-12 02：45：77</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>192.128.23.45</td>
-                                <td>删除根目录</td>
-                                <td class="am-hide-sm-only">危险操作</td>
-                                <td class="am-hide-sm-only">张瑀楠</td>
-                                <td class="am-hide-sm-only">张瑀楠</td>
-                                <td class="am-hide-sm-only">2017-02-12 02：45：77</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>192.128.23.45</td>
-                                <td>删除根目录</td>
-                                <td class="am-hide-sm-only">危险操作</td>
-                                <td class="am-hide-sm-only">张瑀楠</td>
-                                <td class="am-hide-sm-only">张瑀楠</td>
-                                <td class="am-hide-sm-only">2017-02-12 02：45：77</td>
+                            <tr v-for="(item,index) in histories">
+                                <td>[[ index ]]</td>
+                                <td>[[ item.host_name ]]</td>
+                                <td>[[ item.ip ]]</td>
+                                <td>[[ item.shell ]]</td>
+                                <td>[[ item.operation_name ]]</td>
+                                <td>[[ item.create_time ]]</td>
                             </tr>
                             </tbody>
                         </table>
@@ -67,4 +36,34 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block script %}
+    <script>
+        let devops_app = new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#devops_app',
+            data: {
+                histories: [],
+            },
+            mounted: function () {
+                this.searchHistories();
+            },
+            methods: {
+                searchHistories() {
+                    _this = this;
+                    $.ajax({
+                        url: "{% url 'task/historys' %}",
+                        success: function (data) {
+                            if (data.code === 200) {
+                                _this.histories = data.records;
+                            } else {
+                                alert("什么都没有");
+                            }
+                        }
+                    });
+                },
+            }
+        })
+    </script>
+    task/historys
 {% endblock %}

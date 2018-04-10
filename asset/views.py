@@ -27,8 +27,9 @@ def add(request):
     port = request.POST.get("port")
     remark = request.POST.get("remark")
     member_id = request.POST.get("member_id")
+    system_user_id = request.POST.get("system_user_id")
     Asset.objects.create(member_id=member_id, hostname=hostname, network_ip=network_ip, inner_ip=inner_ip, port=port,
-                         remark=remark)
+                         remark=remark, system_user_id=system_user_id)
     return JsonResponse({"code": 200, "msg": "添加成功"}, safe=False)
 
 
@@ -41,8 +42,9 @@ def modify(request):
     port = request.POST.get("port")
     remark = request.POST.get("remark")
     member_id = request.POST.get("member_id")
+    system_user_id = request.POST.get("system_user_id")
     Asset.objects.filter(id=id).update(hostname=hostname, network_ip=network_ip, inner_ip=inner_ip, port=port,
-                                       remark=remark, member_id=member_id)
+                                       remark=remark, member_id=member_id, system_user_id=system_user_id)
     return JsonResponse({"code": 200, "msg": "修改成功"}, safe=False)
 
 

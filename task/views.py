@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 
 from asset.models import Asset
+from task.models import TaskHistory
 
 
 @login_required
@@ -30,8 +31,13 @@ def invoke_shell(request):
 
     # 这行代码的作用是允许连接不在know_hosts文件中的主机。
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(asset.network_ip, port=asset.port, username=asset.system_user.username,
-                password=asset.system_user.password)
+    try:
+        ssh.connect(asset.network_ip, port=asset.port, username=asset.system_user.username,
+                    password=asset.system_user.password)
+    except Exception as e:
+        TaskHistory.objects.create(host_name=asset.hostname, ip=asset.network_ip, shell=shell,
+                                   operation_name=request.user.username, operation_id=1)
+        return JsonResponse({"code": 200, "msg": e.args[0]}, safe=False)
     stdin, stdout, stderr = ssh.exec_command(shell)
 
     err_list = stderr.readlines()
@@ -43,6 +49,8 @@ def invoke_shell(request):
     for item in stdout.readlines():
         result = result + item
     ssh.close()
+    TaskHistory.objects.create(host_name=asset.hostname, ip=asset.network_ip, shell=shell,
+                               operation_name=request.user.username, operation_id=1)
     return JsonResponse({"code": 200, "msg": result}, safe=False)
 
 
@@ -59,6 +67,12 @@ def inadd_shell(request):
 @login_required
 def history(request):
     return render(request, "task/history.html")
+
+
+@login_required
+def historys(request):
+    results = TaskHistory.objects.values().all()
+    return JsonResponse({"code": 200, "records": list(results)}, safe=False)
 
 
 @login_required
