@@ -4,6 +4,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from asset.models import Asset, SystemUser
+from member.models import Member
 
 
 def index(request):
@@ -11,8 +12,11 @@ def index(request):
 
 
 def assets(request):
-    result = Asset.objects.values().all()
-    return JsonResponse({"code": 200, "records": list(result)}, safe=False)
+    results = list(Asset.objects.values().all())
+    for r in results:
+        if r.get('member_id'):
+            r['member_name'] = Member.objects.filter(id=r.get('member_id')).first().name
+    return JsonResponse({"code": 200, "records": results}, safe=False)
 
 
 @login_required
@@ -22,7 +26,9 @@ def add(request):
     inner_ip = request.POST.get("inner_ip")
     port = request.POST.get("port")
     remark = request.POST.get("remark")
-    Asset.objects.create(hostname=hostname, network_ip=network_ip, inner_ip=inner_ip, port=port, remark=remark)
+    member_id = request.POST.get("member_id")
+    Asset.objects.create(member_id=member_id, hostname=hostname, network_ip=network_ip, inner_ip=inner_ip, port=port,
+                         remark=remark)
     return JsonResponse({"code": 200, "msg": "添加成功"}, safe=False)
 
 
@@ -34,8 +40,9 @@ def modify(request):
     inner_ip = request.POST.get("inner_ip")
     port = request.POST.get("port")
     remark = request.POST.get("remark")
+    member_id = request.POST.get("member_id")
     Asset.objects.filter(id=id).update(hostname=hostname, network_ip=network_ip, inner_ip=inner_ip, port=port,
-                                       remark=remark)
+                                       remark=remark, member_id=member_id)
     return JsonResponse({"code": 200, "msg": "修改成功"}, safe=False)
 
 

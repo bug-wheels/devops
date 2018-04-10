@@ -8,7 +8,7 @@
                     <h3 class="panel-title" style="display: inline">资产管理</h3>
                     <div class="col-md-2 pull-right">
                         <a data-toggle="modal" style="background-color: #00aaff;border-color: #00a0f0;height: 30px;"
-                           class="btn btn-primary btn-block" href="#modal-form">添加资产</a>
+                           class="btn btn-primary btn-block" href="#modal_form">添加资产</a>
                     </div>
                     <hr>
                 </div>
@@ -21,7 +21,6 @@
                                     <th>序号</th>
                                     <th>主机名</th>
                                     <th>IP</th>
-                                    <th>类别</th>
                                     <th>使用者</th>
                                     <th>备注</th>
                                     <th>修改日期</th>
@@ -33,8 +32,7 @@
                                     <td>[[ index + 1 ]]</td>
                                     <td>[[ item.hostname ]]</td>
                                     <td>[[ item.network_ip ]] / [[ item.inner_ip ]]</td>
-                                    <td>[[ item.network_ip ]] / [[ item.inner_ip ]]</td>
-                                    <td>[[ item.member_id ]]</td>
+                                    <td>[[ item.member_name ]]</td>
                                     <td>[[ item.remark ]]</td>
                                     <td>[[ item.update_time ]]</td>
                                     <td><a @click="settingAsset(item)">设置</a></td>
@@ -46,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div id="modal-form" class="modal fade" aria-hidden="true">
+        <div id="modal_form" class="modal fade" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -85,9 +83,20 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label class="col-sm-3 control-label">使用者：</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" v-model="asset.member_id">
+                                                <option value="0">请选择</option>
+                                                <option v-for="member in members" :value="member.id">[[ member.name ]]
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <label class="col-sm-3 control-label">备注：</label>
                                         <div class="col-sm-8">
-                                            <textarea class="form-control" rows="5" id="computer-remark"
+                                            <textarea class="form-control" rows="5" v-model="asset.remark"
                                                       placeholder="备注"></textarea>
                                             <small>250字以内写出你的一生...</small>
                                         </div>
@@ -147,10 +156,21 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label class="col-sm-3 control-label">使用者：</label>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" v-model="asset.member_id">
+                                                <option value="0">请选择</option>
+                                                <option v-for="member in members" :value="member.id">[[ member.name ]]
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
                                         <label class="col-sm-3 control-label">备注：</label>
                                         <div class="col-sm-8">
                                             <textarea class="form-control" rows="5" v-model="asset.remark"
-                                                      id="computer-remark"
                                                       placeholder="备注"></textarea>
                                             <small>250字以内写出你的一生...</small>
                                         </div>
@@ -182,9 +202,11 @@
                 assets: [],
                 asset: {},
                 asset_name: '',
+                members: [],
             },
             mounted: function () {
                 this.searchAsset();
+                this.searchMember();
             },
             methods: {
                 searchAsset() {
@@ -203,6 +225,17 @@
                         }
                     });
                 },
+                searchMember() {
+                    _this = this;
+                    $.ajax({
+                        url: "{% url 'member/members' %}",
+                        success: function (data) {
+                            if (data.code === 200) {
+                                _this.members = data.records;
+                            }
+                        }
+                    });
+                },
                 addAsset() {
                     $.ajax({
                         url: '{% url "asset/add" %}',
@@ -210,7 +243,7 @@
                         type: "post",
                         success: function (data) {
                             if (data.code === 200) {
-                                $("#modal-form").modal("hide");
+                                $("#modal_form").modal("hide");
                                 devops_app.searchAsset();
                             } else {
                                 alert("添加失败");
@@ -229,7 +262,7 @@
                         type: "post",
                         success: function (data) {
                             if (data.code === 200) {
-                                $("#modal-modify").modal("hide");
+                                $("#modal_modify").modal("hide");
                                 devops_app.searchAsset();
                             } else {
                                 alert("修改失败");
