@@ -38,7 +38,7 @@
                                 <td class="project-title">
                                     <a href="{% url 'projects/task' %}">[[ item.name ]]</a>
                                     <br/>
-                                    <small>创建于 [[ item.create_time]]</small>
+                                    <small>创建于 [[ item.create_time ]]</small>
                                 </td>
                                 <td class="project-completion">
                                     <small>当前进度： 48%</small>
@@ -50,10 +50,9 @@
                                     已完成 1000 未完成 10
                                 </td>
                                 <td class="project-actions">
-                                    <a href="{% url 'projects/detail' %}" class="btn btn-white btn-sm"><i
-                                            class="fa fa-folder"></i> 查看 </a>
-                                    <a href="projects.html#" class="btn btn-white btn-sm"><i
-                                            class="fa fa-pencil"></i> 编辑 </a>
+                                    <a href="{% url 'projects/detail' %}" class="btn btn-white btn-sm">
+                                        <i class="fa fa-folder"></i> 查看
+                                    </a>
                                 </td>
                             </tr>
                             </tbody>

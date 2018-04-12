@@ -4,7 +4,7 @@
         <h1 style="margin: 0;">TODO LIST</h1>
     </div>
     <!-- MAIN CONTENT -->
-    <div class="main-content">
+    <div class="main-content" id="devops_app">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-4">
@@ -12,7 +12,7 @@
                         <div class="ibox-content">
                             <h3>任务列表</h3>
                             <ul class="sortable-list connectList agile-list">
-                                <li class="warning-element">
+                                <li class="warning-element" @click="taskDetail()">
                                     加强过程管理，及时统计教育经费使用情况，做到底码清楚，
                                     <div class="agile-detail">
                                         <a href="#" class="pull-right btn btn-xs btn-white">标签</a>
@@ -190,12 +190,57 @@
                 </div>
             </div>
         </div>
+        <!-- task edit modal -->
+        <div id="task_edit_modal" class="modal fade" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">项目名称：</label>
+                                        <div class="col-sm-8">
+                                            <input v-model="project.name" placeholder="项目名称" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">项目描述：</label>
+                                        <div class="col-sm-8">
+                                            <input v-model="project.remark" placeholder="项目描述" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 {% block script %}
     <script>
         $(document).ready(function () {
             $(".sortable-list").sortable({connectWith: ".connectList"}).disableSelection()
+        });
+        let devops_app = new Vue({
+            delimiters: ['[[', ']]'],
+            el: '#devops_app',
+            data: {projects: [], project: {}, project_name: ''},
+            mounted: function () {
+                this.searchProjects();
+            },
+            methods: {
+                searchProjects() {
+                },
+                taskDetail() {
+                    $('#task_edit_modal').modal('show');
+                }
+            }
         });
     </script>
 {% endblock %}
